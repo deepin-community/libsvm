@@ -1,0 +1,2 @@
+# This package contains only symlinks to libsvm3-java
+libsvm-java: javalib-but-no-public-jars

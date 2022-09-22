@@ -1,0 +1,102 @@
+libsvm.so.3 libsvm3 #MINVER#
+* Build-Depends-Package: libsvm-dev
+ (c++)"read_model_header(_IO_FILE*, svm_model*)@Base" 3.21+ds
+ (c++)"ONE_CLASS_Q::~ONE_CLASS_Q()@Base" 3.21+ds
+ (c++)"ONE_CLASS_Q::~ONE_CLASS_Q()@Base" 3.21+ds
+ (c++)"ONE_CLASS_Q::~ONE_CLASS_Q()@Base" 3.21+ds
+ (c++)"Cache::lru_delete(Cache::head_t*)@Base" 3.21+ds
+ (c++)"Cache::lru_insert(Cache::head_t*)@Base" 3.21+ds
+ (c++)"Cache::swap_index(int, int)@Base" 3.21+ds
+ (c++)"Cache::get_data(int, float**, int)@Base" 3.21+ds
+ (c++)"Cache::Cache(int, long)@Base" 3.21+ds
+ (c++)"Cache::Cache(int, long)@Base" 3.21+ds
+ (c++)"Cache::~Cache()@Base" 3.21+ds
+ (c++)"Cache::~Cache()@Base" 3.21+ds
+ (c++)"SVC_Q::~SVC_Q()@Base" 3.21+ds
+ (c++)"SVC_Q::~SVC_Q()@Base" 3.21+ds
+ (c++)"SVC_Q::~SVC_Q()@Base" 3.21+ds
+ (c++)"SVR_Q::~SVR_Q()@Base" 3.21+ds
+ (c++)"SVR_Q::~SVR_Q()@Base" 3.21+ds
+ (c++)"SVR_Q::~SVR_Q()@Base" 3.21+ds
+ (c++)"Kernel::k_function(svm_node const*, svm_node const*, svm_parameter const&)@Base" 3.21+ds
+ (c++)"Kernel::dot(svm_node const*, svm_node const*)@Base" 3.21+ds
+ (c++)"Kernel::Kernel(int, svm_node* const*, svm_parameter const&)@Base" 3.21+ds
+ (c++)"Kernel::Kernel(int, svm_node* const*, svm_parameter const&)@Base" 3.21+ds
+ (c++)"Kernel::~Kernel()@Base" 3.21+ds
+ (c++)"Kernel::~Kernel()@Base" 3.21+ds
+ (c++)"Kernel::~Kernel()@Base" 3.21+ds
+ (c++)"Solver::swap_index(int, int)@Base" 3.21+ds
+ (c++)"Solver::do_shrinking()@Base" 3.21+ds
+ (c++)"Solver::calculate_rho()@Base" 3.21+ds
+ (c++)"Solver::select_working_set(int&, int&)@Base" 3.21+ds
+ (c++)"Solver::reconstruct_gradient()@Base" 3.21+ds
+ (c++)"Solver::Solve(int, QMatrix const&, double const*, signed char const*, double*, double, double, double, Solver::SolutionInfo*, int)@Base" 3.21+ds
+ (c++)"Solver::be_shrunk(int, double, double)@Base" 3.21+ds
+ (c++)"Solver::~Solver()@Base" 3.21+ds
+ (c++)"Solver::~Solver()@Base" 3.21+ds
+ (c++)"Solver::~Solver()@Base" 3.21+ds
+ (c++)"Solver_NU::do_shrinking()@Base" 3.21+ds
+ (c++)"Solver_NU::calculate_rho()@Base" 3.21+ds
+ (c++)"Solver_NU::select_working_set(int&, int&)@Base" 3.21+ds
+ (c++)"Solver_NU::be_shrunk(int, double, double, double, double)@Base" 3.21+ds
+ (c++)"Solver_NU::~Solver_NU()@Base" 3.21+ds
+ (c++)"Solver_NU::~Solver_NU()@Base" 3.21+ds
+ (c++)"Solver_NU::~Solver_NU()@Base" 3.21+ds
+ (c++)"ONE_CLASS_Q::swap_index(int, int) const@Base" 3.21+ds
+ (c++)"ONE_CLASS_Q::get_Q(int, int) const@Base" 3.21+ds
+ (c++)"ONE_CLASS_Q::get_QD() const@Base" 3.21+ds
+ (c++)"SVC_Q::swap_index(int, int) const@Base" 3.21+ds
+ (c++)"SVC_Q::get_Q(int, int) const@Base" 3.21+ds
+ (c++)"SVC_Q::get_QD() const@Base" 3.21+ds
+ (c++)"SVR_Q::swap_index(int, int) const@Base" 3.21+ds
+ (c++)"SVR_Q::get_Q(int, int) const@Base" 3.21+ds
+ (c++)"SVR_Q::get_QD() const@Base" 3.21+ds
+ (c++)"Kernel::kernel_rbf(int, int) const@Base" 3.21+ds
+ (c++)"Kernel::swap_index(int, int) const@Base" 3.21+ds
+ (c++)"Kernel::kernel_poly(int, int) const@Base" 3.21+ds
+ (c++)"Kernel::kernel_linear(int, int) const@Base" 3.21+ds
+ (c++)"Kernel::kernel_sigmoid(int, int) const@Base" 3.21+ds
+ (c++)"Kernel::kernel_precomputed(int, int) const@Base" 3.21+ds
+ (c++)"typeinfo for ONE_CLASS_Q@Base" 3.21+ds
+ (c++)"typeinfo for SVC_Q@Base" 3.21+ds
+ (c++)"typeinfo for SVR_Q@Base" 3.21+ds
+ (c++)"typeinfo for Kernel@Base" 3.21+ds
+ (c++)"typeinfo for Solver@Base" 3.21+ds
+ (c++)"typeinfo for QMatrix@Base" 3.21+ds
+ (c++)"typeinfo for Solver_NU@Base" 3.21+ds
+ (c++)"typeinfo name for ONE_CLASS_Q@Base" 3.21+ds
+ (c++)"typeinfo name for SVC_Q@Base" 3.21+ds
+ (c++)"typeinfo name for SVR_Q@Base" 3.21+ds
+ (c++)"typeinfo name for Kernel@Base" 3.21+ds
+ (c++)"typeinfo name for Solver@Base" 3.21+ds
+ (c++)"typeinfo name for QMatrix@Base" 3.21+ds
+ (c++)"typeinfo name for Solver_NU@Base" 3.21+ds
+ (c++)"vtable for ONE_CLASS_Q@Base" 3.21+ds
+ (c++)"vtable for SVC_Q@Base" 3.21+ds
+ (c++)"vtable for SVR_Q@Base" 3.21+ds
+ (c++)"vtable for Kernel@Base" 3.21+ds
+ (c++)"vtable for Solver@Base" 3.21+ds
+ (c++)"vtable for Solver_NU@Base" 3.21+ds
+# Apparently from an updated toolchain
+ (c++|optional)"SVR_Q::SVR_Q(svm_problem const&, svm_parameter const&)@Base" 3.21+ds
+ (c++|optional)"SVR_Q::SVR_Q(svm_problem const&, svm_parameter const&)@Base" 3.21+ds
+ libsvm_version@Base 3.21+ds
+ svm_check_parameter@Base 3.21+ds
+ svm_check_probability_model@Base 3.21+ds
+ svm_cross_validation@Base 3.21+ds
+ svm_destroy_param@Base 3.21+ds
+ svm_free_and_destroy_model@Base 3.21+ds
+ svm_free_model_content@Base 3.21+ds
+ svm_get_labels@Base 3.21+ds
+ svm_get_nr_class@Base 3.21+ds
+ svm_get_nr_sv@Base 3.21+ds
+ svm_get_sv_indices@Base 3.21+ds
+ svm_get_svm_type@Base 3.21+ds
+ svm_get_svr_probability@Base 3.21+ds
+ svm_load_model@Base 3.21+ds
+ svm_predict@Base 3.21+ds
+ svm_predict_probability@Base 3.21+ds
+ svm_predict_values@Base 3.21+ds
+ svm_save_model@Base 3.21+ds
+ svm_set_print_string_function@Base 3.21+ds
+ svm_train@Base 3.21+ds

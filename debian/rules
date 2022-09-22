@@ -1,0 +1,70 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# For DEB_VERSION_UPSTREAM
+include /usr/share/dpkg/pkg-info.mk
+
+# Needed for our Makefile customizations
+DMAJOR := $(shell echo $(DEB_VERSION_UPSTREAM) | sed -rne 's/([0-9])\.[0-9][0-9].*/\1/p')
+DMINOR := $(shell echo $(DEB_VERSION_UPSTREAM) | sed -rne 's/[0-9]\.([0-9])[0-9].*/\1/p')
+DPATCH := $(shell echo $(DEB_VERSION_UPSTREAM) | sed -rne 's/[0-9]\.[0-9]([0-9]).*/\1/p')
+
+# Replicate upstream's naming convention... (see d/watch)
+ifeq ($(DPATCH),0)
+    UPVER := $(DMAJOR).$(DMINOR)
+else
+    UPVER := $(DMAJOR).$(DMINOR)$(DPATCH)
+endif
+export UPVER DEBVER DMAJOR DMINOR DPATCH
+
+export DEB_BUILD_MAINT_OPTIONS += hardening=+all
+export DEB_CFLAGS_MAINT_APPEND += -Wall
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+ifeq (amd64,$(DEB_HOST_ARCH))
+    DEB_CFLAGS_MAINT_APPEND += -msse
+endif
+endif
+
+include /usr/share/dpkg/architecture.mk
+
+ifeq ($(origin CXX),default)
+CXX = $(DEB_HOST_GNU_TYPE)-g++
+endif
+
+%:
+	dh $@ $(DH_ADDONS)
+build binary %-indep: DH_ADDONS=--with=python3
+
+override_dh_auto_build-arch:
+	dh_auto_build -a
+	cp tools/checkdata.py tools/svm-checkdata
+	cp tools/easy.py tools/svm-easy
+	cp tools/grid.py tools/svm-grid
+	cp tools/subset.py tools/svm-subset
+	sed -i 's/..\/svm-train/\/usr\/bin\/svm-train/g' tools/svm-*
+	sed -i 's/..\/svm-predict/\/usr\/bin\/svm-predict/g' tools/svm-*
+	sed -i 's/..\/svm-scale/\/usr\/bin\/svm-scale/g' tools/svm-*
+	sed -i 's/.\/grid.py/\/usr\/bin\/svm-grid/g' tools/svm-easy
+	sed -i 's/"get no rate"/RuntimeError("get no rate")/g' tools/svm-grid
+
+override_dh_auto_build-indep:
+	dh_auto_build -i
+	$(MAKE) -C java
+
+override_dh_auto_install:
+	dh_auto_install -- libdir=/usr/lib/$(DEB_HOST_MULTIARCH)/
+
+override_dh_python3:
+	dh_python3 --shebang='/usr/bin/env python3'
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+override_dh_clean:
+	dh_clean
+	rm -rf tools/svm-* libsvm.so* libsvm.a
+	$(MAKE) -C java clean

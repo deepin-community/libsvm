@@ -1,0 +1,101 @@
+From: Debian Science Maintainers
+ <debian-science-maintainers@lists.alioth.debian.org>
+Date: Fri, 10 Jan 2020 22:55:40 +0100
+Subject: build-libraries
+
+Modify upstream's Makefile to properly build shared and static libraries,
+and provide an install target.
+---
+ Makefile | 83 ++++++++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 60 insertions(+), 23 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index db6ab34..04aca20 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,25 +1,62 @@
+ CXX ?= g++
+-CFLAGS = -Wall -Wconversion -O3 -fPIC
+-SHVER = 2
+-OS = $(shell uname)
+-
+-all: svm-train svm-predict svm-scale
+-
+-lib: svm.o
+-	if [ "$(OS)" = "Darwin" ]; then \
+-		SHARED_LIB_FLAG="-dynamiclib -Wl,-install_name,libsvm.so.$(SHVER)"; \
+-	else \
+-		SHARED_LIB_FLAG="-shared -Wl,-soname,libsvm.so.$(SHVER)"; \
+-	fi; \
+-	$(CXX) $${SHARED_LIB_FLAG} svm.o -o libsvm.so.$(SHVER)
+-
+-svm-predict: svm-predict.c svm.o
+-	$(CXX) $(CFLAGS) svm-predict.c svm.o -o svm-predict -lm
+-svm-train: svm-train.c svm.o
+-	$(CXX) $(CFLAGS) svm-train.c svm.o -o svm-train -lm
+-svm-scale: svm-scale.c
+-	$(CXX) $(CFLAGS) svm-scale.c -o svm-scale
+-svm.o: svm.cpp svm.h
+-	$(CXX) $(CFLAGS) -c svm.cpp
++CC ?= gcc
++CFLAGS +=
++LDFLAGS += -L.
++LIBS +=
++SHVER = 3
++
++# Libraries must not be compiled/linked with -pie, -fpie or -FPIE
++LIB_CFLAGS += $(filter-out -fPIE,$(CFLAGS)) -fPIC
++LIB_LDFLAGS += $(filter-out -fPIE, $(filter-out -pie,$(LDFLAGS)))
++LIB_LIBS += $(LIBS)
++
++PROG_CFLAGS += $(CFLAGS)
++PROG_LDFLAGS += $(LDFLAGS)
++PROG_LIBS += $(LIBS) -lsvm -lm
++
++DMAJOR ?= 0
++DMINOR ?= 0
++DPATCH ?= 0
++LIBFILE = libsvm.so.$(SHVER).$(DMINOR)$(DPATCH)
++
++bindir ?= /usr/bin/
++libdir ?= /usr/lib/
++bindest = $(DESTDIR)$(bindir)
++libdest = $(DESTDIR)$(libdir)
++
++all: svm-train svm-predict svm-scale libsvm.a
++
++svm-train: svm-train.c $(LIBFILE)
++	$(CXX) $(CPPFLAGS) $(PROG_CFLAGS) $(PROG_LDFLAGS) -o $@ svm-train.c $(PROG_LIBS)
++
++svm-predict: svm-predict.c $(LIBFILE)
++	$(CXX) $(CPPFLAGS) $(PROG_CFLAGS) $(PROG_LDFLAGS) -o $@ svm-predict.c $(PROG_LIBS)
++
++svm-scale: svm-scale.c $(LIBFILE)
++	$(CXX) $(CPPFLAGS) $(PROG_CFLAGS) $(PROG_LDFLAGS) -o $@ svm-scale.c $(PROG_LIBS)
++
++$(LIBFILE): svm.cpp svm.h
++	$(CXX) $(CPPFLAGS) $(LIB_CFLAGS) $(LIB_LDFLAGS) -shared \
++		-Wl,-soname,libsvm.so.$(SHVER) \
++		-o $@ svm.cpp $(LIB_LIBS)
++	ln -s $@ libsvm.so.$(SHVER)
++	ln -s libsvm.so.$(SHVER) libsvm.so
++
++libsvm.a:
++	$(CXX) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c -o svm-static.o svm.cpp
++	ar cru libsvm.a svm-static.o
++
++install: all
++	install -d $(bindest) $(libdest)
++	install svm-train svm-predict svm-scale -m 755 $(bindest)
++	install tools/checkdata.py $(bindest)/svm-checkdata
++	install tools/easy.py $(bindest)/svm-easy
++	install tools/grid.py $(bindest)/svm-grid
++	install tools/subset.py $(bindest)/svm-subset
++	install libsvm.a -m 644 $(libdest)
++	install $(LIBFILE) -m 644 $(libdest)
++	cd $(libdest) && ln -s $(LIBFILE) libsvm.so.$(SHVER)
++	cd $(libdest) && ln -s libsvm.so.$(SHVER) libsvm.so
++
+ clean:
+-	rm -f *~ svm.o svm-train svm-predict svm-scale libsvm.so.$(SHVER)
++	rm -f *~ *.o *.a *.so* svm-train svm-predict svm-scale tools/svm-*

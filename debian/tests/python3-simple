@@ -1,0 +1,46 @@
+#!/bin/bash
+# Run a simple test from upstream's README for Python 3 against all requested
+# Python 3 versions. Assumes $AUTOPKGTEST_TMP is set, see
+# /usr/share/doc/autopkgtest/README.package-tests.rst.gz
+
+SOURCE_BASE="$PWD"
+for interpreter in `py3versions -r 2>/dev/null`
+do
+	echo "=== Testing with $interpreter ==="
+	mkdir "$AUTOPKGTEST_TMP"/$interpreter
+	cp "$SOURCE_BASE"/heart_scale "$AUTOPKGTEST_TMP/$interpreter"
+	cd "$AUTOPKGTEST_TMP"/$interpreter
+
+cat > lowlevel-test.py <<EOF
+from svm import *
+
+prob = svm_problem([1,-1], [{1:1, 3:1}, {1:-1,3:-1}])
+param = svm_parameter('-c 4')
+m = libsvm.svm_train(prob, param) # m is a ctype pointer to an svm_model
+# Convert a Python-format instance to svm_nodearray, a ctypes structure
+x0, max_idx = gen_svm_nodearray({1:1, 3:1})
+label = libsvm.svm_predict(m, x0)
+EOF
+
+cat > util-test.py <<EOF
+from svmutil import *
+# Read data in LIBSVM format
+y, x = svm_read_problem('heart_scale')
+m = svm_train(y[:200], x[:200], '-c 4')
+p_label, p_acc, p_val = svm_predict(y[200:], x[200:], m)
+
+# Construct problem in python format (Sparse data)
+y, x = [1,-1], [{1:1, 3:1}, {1:-1,3:-1}]
+prob  = svm_problem(y, x)
+param = svm_parameter('-t 0 -c 4 -b 1')
+m = svm_train(prob, param)
+EOF
+
+	echo "--- Testing lowlevel API ---"
+	$interpreter lowlevel-test.py
+	echo
+
+	echo "--- Testing util API ---"
+	$interpreter util-test.py
+	echo
+done

@@ -1,0 +1,11 @@
+README for python3-libsvm
+=========================
+
+Upstream's physical commonutil.py has been merged into svmutil.py.
+
+In practice, svmutil was already importing all from commonutil, so unless
+you were importing commonutil directly, you should not even notice this change.
+
+If you were importing commonutil directly, simply import svmutil instead.
+
+ -- Christian Kastner <ckk@debian.org>  Sat, 02 May 2020 10:05:37 +0200

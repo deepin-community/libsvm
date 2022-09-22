@@ -1,0 +1,3 @@
+svm.h usr/include/libsvm
+usr/lib/*/libsvm.so
+usr/lib/*/libsvm.a

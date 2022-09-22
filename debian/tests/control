@@ -1,0 +1,5 @@
+Tests: executables
+Depends: libsvm-tools
+
+Tests: python3-simple
+Depends: python3-all, python3-libsvm

@@ -1,0 +1,20 @@
+#!/bin/sh
+# Run the examples from the man pages. Assumes $AUTOPKGTEST_TMP is set, see
+# /usr/share/doc/autopkgtest/README.package-tests.gz
+set -e
+
+# Copy the example data to $AUTOPKGTEST_TMP, and run the examples.
+cp heart_scale "$AUTOPKGTEST_TMP"
+cd "$AUTOPKGTEST_TMP"
+
+svm-train heart_scale
+svm-train -v 5 -e 0.001 heart_scale
+# Both of these produce about reaching max iterations; we ignore it. Also, the
+# classes don't fit heart_scale, but that's not the point here.
+# We don't want to use autopkgtest's Restriction: allow-stderr generally, so
+# redirect stderr here
+svm-train -c 10 -w1 2 -w2 5 -w3 2 heart_scale 2>&1
+svm-train -c 10 -w3 1 -w2 5 heart_scale 2>&1
+
+svm-train -s 0 -b 1 heart_scale
+svm-predict -b 1 heart_scale heart_scale.model output_file

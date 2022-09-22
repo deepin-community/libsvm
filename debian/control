@@ -1,0 +1,103 @@
+Source: libsvm
+Section: devel
+Priority: optional
+Maintainer: Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders:
+    Chen-Tse Tsai <ctse.tsai@gmail.com>,
+    Christian Kastner <ckk@debian.org>,
+    Michael Hudson-Doyle <mwhudson@debian.org>
+Build-Depends:
+	debhelper-compat (= 12),
+	libtool,
+	python3-all:native,
+	dh-python,
+Build-Depends-Indep:
+	default-jdk
+Rules-Requires-Root: no
+Standards-Version: 4.5.0
+Vcs-Browser: https://salsa.debian.org/science-team/libsvm
+Vcs-Git: https://salsa.debian.org/science-team/libsvm.git
+Homepage: https://www.csie.ntu.edu.tw/~cjlin/libsvm/
+
+Package: libsvm3
+Architecture: any
+Multi-Arch: same
+Section: libs
+Depends:
+	${shlibs:Depends},
+	${misc:Depends}
+Description: library implementing support vector machines
+ The LIBSVM library is used to calculate Support Vector Machine optimizations
+ with a great variety of powerful options.  It includes one-class, two-class,
+ multiclass, regression-mode, and probablistic output functionality.  It is
+ primarily of interest to machine-learning researchers and artificial
+ intelligence application developers.
+
+Package: libsvm-tools
+Architecture: any
+Depends:
+	${shlibs:Depends},
+	${misc:Depends},
+	${python3:Depends},
+	gnuplot,
+	libsvm3 (=${binary:Version})
+Description: LIBSVM binary tools
+ LIBSVM is an easy-to-use package for support vector classification,
+ regression and one-class SVM. It supports multi-class classification,
+ probability outputs, and parameter selection.
+
+Package: libsvm-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends:
+	${shlibs:Depends},
+	${misc:Depends},
+	libsvm3 (=${binary:Version})
+Description: LIBSVM header files
+ LIBSVM, a machine-learning library, is an easy-to-use package for
+ support vector classification, regression and one-class SVM. It
+ supports multi-class classification, probability outputs, and
+ parameter selection.
+ .
+ This package contains the development header files.
+
+Package: python3-libsvm
+Architecture: all
+Section: python
+Depends:
+	libsvm3(>=${binary:Version}),
+	libsvm3(<<${binary:Version}.1~),
+	${python3:Depends},
+	${misc:Depends},
+	${shlibs:Depends}
+Description: Python interface for support vector machine library
+ Python interface for the LIBSVM library using ctypes. This new Python
+ interface is provided since 2.91, and it is incompatible with the old
+ one.
+
+Package: libsvm3-java
+Architecture: all
+Multi-Arch: foreign
+Section: java
+Depends: ${misc:Depends}
+Conflicts: libsvm2-java
+Suggests: java-virtual-machine
+Description: Java API to support vector machine library (libsvm3.jar)
+ The functionality of the libsvm are offered in a single jar file. It includes
+ one-class, two-class, multiclass, regression-mode, and probablistic output
+ functionality.
+
+Package: libsvm-java
+Architecture: all
+Multi-Arch: foreign
+Section: java
+Depends:
+	libsvm3-java,
+	${misc:Depends}
+Description: Java API to support vector machine library (libsvm.jar)
+ The functionality of the libsvm are offered in a single jar file. It includes
+ one-class, two-class, multiclass, regression-mode, and probablistic output
+ functionality.
+ .
+ This package solely provides a symbolic link from libsvm.jar libsvm3.jar.

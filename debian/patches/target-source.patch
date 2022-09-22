@@ -1,0 +1,19 @@
+From: Emmanuel Bourg <ebourg@apache.org>
+Date: Tue, 10 Apr 2018 01:06:13 +0200
+Subject: Bump -target/-source
+
+ Fixes FTBFS with Java >= 9.
+
+Bug-Debian: https://bugs.debian.org/893291
+
+--- a/java/Makefile
++++ b/java/Makefile
+@@ -11,7 +11,7 @@ JAVAC = javac
+ export CLASSPATH := .:$(CLASSPATH)
+ 
+ all: $(FILES)
+-	jar cvf libsvm.jar *.class libsvm/*.class
++	jar cvf libsvm3.jar *.class libsvm/*.class
+ 
+ .java.class:
+ 	$(JAVAC) $(JAVAC_FLAGS) $<

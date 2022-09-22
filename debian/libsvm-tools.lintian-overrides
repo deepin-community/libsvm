@@ -1,0 +1,4 @@
+# Upstream does not provide a changelog
+libsvm-tools: no-upstream-changelog
+# The HTML is just a simple FAQ
+libsvm-tools: possible-documentation-but-no-doc-base-registration
